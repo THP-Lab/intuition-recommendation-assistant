@@ -8,7 +8,7 @@ const HomePage = () => {
       {/* Navbar */}
       <Navbar />
 
-      <header className="bg-gradient-to-r from-[#1f1f1f] to-[#5f5f5f] text-white relative py-8">
+      <header className="bg-gradient-to-r from-[#1f1f1f] to-[#4f4f4f] text-white relative py-8">
         {/* Réduction de la taille du jumbotron */}
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
           {/* Text Section */}
