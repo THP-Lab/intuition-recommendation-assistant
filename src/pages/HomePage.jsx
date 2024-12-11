@@ -7,7 +7,6 @@ const HomePage = () => {
     <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
       <Navbar />
-
       <header className="bg-gradient-to-r from-[#1f1f1f] to-[#4f4f4f] text-white relative py-8">
         {/* Réduction de la taille du jumbotron */}
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
@@ -36,11 +35,33 @@ const HomePage = () => {
           </div>
 
           {/* Image Section */}
-          <div className="image-section w-full md:w-1/2 max-w-md md:max-w-lg relative">
+          <div
+            className="image-section w-full md:w-1/2 max-w-md md:max-w-lg relative"
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: "0.5rem", // To match the rounded effect
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                background: "linear-gradient(to right, #1f1f1f, #4f4f4f)",
+                filter: "blur(50px)", // Blur effect to blend
+                zIndex: -1,
+              }}
+            ></div>
             <img
-              src="/img_decentrep.webp" // Remplacez par le chemin réel de l'image
+              src="/img_decentrep.webp"
               alt="DecentRep Logo"
-              className="w-full h-auto rounded-lg shadow-lg object-cover"
+              className="w-full h-auto object-cover rounded-lg shadow-lg"
+              style={{
+                boxShadow: "0 0 50px 50px #4f4f4f", // Smooth fading effect
+              }}
             />
           </div>
         </div>
