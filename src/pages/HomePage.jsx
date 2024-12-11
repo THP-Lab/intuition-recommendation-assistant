@@ -8,8 +8,7 @@ const HomePage = () => {
       {/* Navbar */}
       <Navbar />
 
-      <header className="bg-[#2f2f2f] text-white relative py-8">
-        {" "}
+      <header className="bg-gradient-to-r from-[#1f1f1f] to-[#5f5f5f] text-white relative py-8">
         {/* Réduction de la taille du jumbotron */}
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
           {/* Text Section */}
@@ -37,7 +36,7 @@ const HomePage = () => {
           </div>
 
           {/* Image Section */}
-          <div className="image-section w-full md:w-1/2 max-w-md md:max-w-lg">
+          <div className="image-section w-full md:w-1/2 max-w-md md:max-w-lg relative">
             <img
               src="/img_decentrep.webp" // Remplacez par le chemin réel de l'image
               alt="DecentRep Logo"
