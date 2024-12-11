@@ -1,4 +1,4 @@
-// src/pages/CreatePage.js
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -85,9 +85,11 @@ const CreatePage = () => {
             </div>
 
             {/* Submit Button */}
-            <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all">
-              Submit
-            </button>
+            <Link to="/verificationform?source=create">
+              <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all">
+                Submit
+              </button>
+            </Link>
           </section>
         </div>
       </main>

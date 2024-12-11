@@ -13,15 +13,24 @@ const Navbar = () => {
         {/* Logo and App Name */}
         <div className="flex items-center space-x-2"> {/* Réduit l'espace entre l'image et le texte */}
           <img src="/img_decentrep2.webp" alt="DecentRep Logo" className="w-10 h-10" />
-          <span className="text-2xl font-semibold">DecentRep</span>
+          <Link to="/" className="text-2xl font-semibold hover:text-blue-400"> {/* Lien vers la page d'accueil */}
+            DecentRep
+          </Link>
         </div>
 
         {/* Navbar Links */}
         <div className={`md:flex ${isOpen ? 'block' : 'hidden'}`}>
-          {/* Utilisation du composant Link pour la navigation */}
           <Link to="/create" className="text-white hover:text-blue-400 mx-4">Create</Link>
           <Link to="/request" className="text-white hover:text-blue-400 mx-4">Request</Link>
-          <Link to="/graph" className="text-white hover:text-blue-400 mx-4">Graph Visualization</Link>
+          {/* Changer Graph Visualization pour un lien externe */}
+          <a 
+            href="https://graph.i7n.thp-lab.org/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-white hover:text-blue-400 mx-4"
+          >
+            Graph Visualization
+          </a>
           <Link to="/team" className="text-white hover:text-blue-400 mx-4">Team</Link>
         </div>
 

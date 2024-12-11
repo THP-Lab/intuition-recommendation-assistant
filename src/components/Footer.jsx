@@ -1,4 +1,5 @@
 // src/components/Footer.js
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -8,10 +9,12 @@ const Footer = () => {
 
         {/* Liens dans le footer */}
         <div className="mt-4">
-          <a href="#create" className="text-white hover:text-blue-400 mx-4">Create</a>
-          <a href="#request" className="text-white hover:text-blue-400 mx-4">Request</a>
-          <a href="#graph-visualization" className="text-white hover:text-blue-400 mx-4">Graph Visualization</a>
-          <a href="#team" className="text-white hover:text-blue-400 mx-4">Team</a>
+          <Link to="/create" className="text-white hover:text-blue-400 mx-4">Create</Link>
+          <Link to="/request" className="text-white hover:text-blue-400 mx-4">Request</Link>
+          <a href="https://graph.i7n.thp-lab.org/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-400 mx-4">
+            Graph Visualization
+          </a>
+          <Link to="/team" className="text-white hover:text-blue-400 mx-4">Team</Link>
         </div>
       </div>
     </footer>
