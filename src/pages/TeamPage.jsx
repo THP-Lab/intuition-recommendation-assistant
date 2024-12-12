@@ -1,3 +1,4 @@
+import { FaGithub, FaLinkedin } from 'react-icons/fa'; // Importer les icônes
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -42,25 +43,131 @@ const TeamPage = () => {
             <ul className="space-y-4">
               <li>
                 <strong>Sacha Godel</strong> - Dev
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://github.com/MacDuPain"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaGithub />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/sacha-godel/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
               </li>
               <li>
                 <strong>Thibault Lenormand</strong> - Dev
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://github.com/ThibaultL24"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaGithub />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/thibault-lenormand-b38b96268/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
+              </li>
+              <li>
+                <strong>Maxime Lodato</strong> - Dev
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://github.com/maximelodato"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaGithub />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/maxime-lodato-753a4a277/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
               </li>
               <li>
                 <strong>Alexandre Tedesco</strong> - Dev
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://github.com/AlexandreTedesco"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaGithub />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/alexandre-tedesco-85aa37298/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
               </li>
               <li>
                 <strong>Thomas Bobichon</strong> - Dev
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://github.com/ZealRa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaGithub />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/thomas-bobichon/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
+              </li>
+              <li>
+                <strong>Zet</strong> - Mentor
+                <div className="flex space-x-4 mt-2">
+                  <a
+                    href="https://www.linkedin.com/in/jeremie-olivier/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-white hover:text-gray-400"
+                  >
+                    <FaLinkedin />
+                  </a>
+                </div>
               </li>
             </ul>
             <p className="mt-6 text-lg">
-              We&apos;re working on a revolutionnary project around Intuition,
+              We&apos;re working on a revolutionary project around Intuition,
               using the RDF model to create an immutable information network on
               the blockchain. 🌐
             </p>
             <p className="mt-4 text-lg">
-              <strong>Jérémie (Zet)</strong>, teacher at{" "}
-              <strong>The Hacking Project</strong>, is guiding us et shares his
+              <strong>Zet</strong>, teacher at{" "}
+              <strong>The Hacking Project</strong>, is guiding us and sharing his
               deep knowledge on Web3 and decentralization concepts.
             </p>
           </div>
