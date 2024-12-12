@@ -1,6 +1,6 @@
 // src/pages/TeamPage.js
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const TeamPage = () => {
   return (
@@ -13,10 +13,12 @@ const TeamPage = () => {
         <div className="container mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between">
           {/* Text Section */}
           <div className="text-section max-w-lg text-center md:text-left mb-12 md:mb-0">
-            <h1 className="text-5xl font-extrabold mb-4">Rencontrez l&apos;équipe</h1>
+            <h1 className="text-5xl font-extrabold mb-4">Meet our Team</h1>
             <p className="text-xl font-light mb-6">
-              Nous sommes une équipe d&apos;apprenants passionnés, en formation à <strong>The Hacking Project</strong>. 
-              Avec l&apos;aide de notre mentor Zet, nous développons un projet innovant autour du Web3 et de la décentralisation.
+              We are a team of devs in training at{" "}
+              <strong>The Hacking Project</strong>. With the help of our mentor
+              Zet, we are working on an innovative project around Web3 and
+              decentralization.
             </p>
           </div>
 
@@ -37,28 +39,30 @@ const TeamPage = () => {
         <div className="container mx-auto px-6 py-12 flex flex-col lg:flex-row items-center justify-between">
           {/* Left: Names and Info */}
           <div className="lg:w-1/2 mb-8 lg:mb-0">
-            <h3 className="text-3xl font-semibold text-white mb-6">L&apos;équipe</h3>
+            <h3 className="text-3xl font-semibold text-white mb-6">The Team</h3>
             <ul className="space-y-4">
               <li>
-                <strong>Sacha Godel</strong> - Développeur
+                <strong>Sacha Godel</strong> - Dev
               </li>
               <li>
-                <strong>Thibault Lenormand</strong> - Développeur
+                <strong>Thibault Lenormand</strong> - Dev
               </li>
               <li>
-                <strong>Alexandre Tedesco</strong> - Développeur
+                <strong>Alexandre Tedesco</strong> - Dev
               </li>
               <li>
-                <strong>Thomas Bobichon</strong> - Développeur
+                <strong>Thomas Bobichon</strong> - Dev
               </li>
             </ul>
             <p className="mt-6 text-lg">
-              Nous travaillons sur un projet révolutionnaire autour d&apos;Intuition, utilisant le modèle RDF pour créer un
-              réseau d&apos;information immuable sur la blockchain. 🌐
+              We're working on a revolutionnary project around Intuition, using
+              the RDF model to create an immutable information network on the
+              blockchain. 🌐
             </p>
             <p className="mt-4 text-lg">
-              <strong>Jérémie (Zet)</strong>, professeur à <strong>The Hacking Project</strong>, nous guide et partage
-              ses connaissances approfondies sur les concepts de Web3 et de la décentralisation.
+              <strong>Jérémie (Zet)</strong>, teacher at{" "}
+              <strong>The Hacking Project</strong>, is guiding us et shares his
+              deep knowledge on Web3 and decentralization concepts.
             </p>
           </div>
 
