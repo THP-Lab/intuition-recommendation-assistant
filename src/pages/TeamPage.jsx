@@ -1,4 +1,3 @@
-// src/pages/TeamPage.js
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -25,7 +24,7 @@ const TeamPage = () => {
           {/* Image Section */}
           <div className="image-section w-full md:w-1/2">
             <img
-              src="/img_decentrep2.webp" // Remplacez par le chemin réel de l'image
+              src="/img_decentrep2.webp" // Updated with the new image
               alt="DecentRep Team"
               className="w-full h-auto rounded-lg shadow-lg"
             />
@@ -55,9 +54,9 @@ const TeamPage = () => {
               </li>
             </ul>
             <p className="mt-6 text-lg">
-              We're working on a revolutionnary project around Intuition, using
-              the RDF model to create an immutable information network on the
-              blockchain. 🌐
+              We&apos;re working on a revolutionnary project around Intuition,
+              using the RDF model to create an immutable information network on
+              the blockchain. 🌐
             </p>
             <p className="mt-4 text-lg">
               <strong>Jérémie (Zet)</strong>, teacher at{" "}
@@ -66,31 +65,10 @@ const TeamPage = () => {
             </p>
           </div>
 
-          {/* Right: Photos */}
-          <div className="lg:w-1/2 grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="lg:w-1/2 flex justify-center items-center">
             <img
-              src="/img_placeholder1.webp" // Remplacez par le chemin réel de l'image
-              alt="Sacha Godel"
-              className="w-full h-auto rounded-lg shadow-md"
-            />
-            <img
-              src="/img_placeholder2.webp" // Remplacez par le chemin réel de l'image
-              alt="Thibault Lenormand"
-              className="w-full h-auto rounded-lg shadow-md"
-            />
-            <img
-              src="/img_placeholder3.webp" // Remplacez par le chemin réel de l'image
-              alt="Alexandre Tedesco"
-              className="w-full h-auto rounded-lg shadow-md"
-            />
-            <img
-              src="/img_placeholder4.webp" // Remplacez par le chemin réel de l'image
-              alt="Thomas Bobichon"
-              className="w-full h-auto rounded-lg shadow-md"
-            />
-            <img
-              src="/img_placeholder5.webp" // Remplacez par le chemin réel de l'image
-              alt="Maxime Lodato"
+              src="/img_decentrep4.jpg" // Updated to use the new image
+              alt="Team Representation"
               className="w-full h-auto rounded-lg shadow-md"
             />
           </div>
