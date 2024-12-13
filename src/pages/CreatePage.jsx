@@ -1,8 +1,61 @@
+import { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const CreatePage = () => {
+  const [inputText, setInputText] = useState('');
+  const [generatedTriples, setGeneratedTriples] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fonction pour envoyer le texte à l'API Rails et obtenir les triples
+  const handleGenerateTriples = async () => {
+    if (!inputText) return; // Ne pas envoyer si le texte est vide
+  
+    setLoading(true); // Afficher le loader pendant l'appel API
+  
+    try {
+      // Envoie du texte à l'API Rails pour générer les triples
+      const response = await axios.post('http://127.0.0.1:3042/nlp/generate', { prompt: inputText });
+  
+      // Log de la réponse pour vérifier les données
+      console.log('Réponse complète de l\'API:', response.data);
+  
+      // Vérification de la structure de la réponse et extraction des triples
+      if (response.data && Array.isArray(response.data)) {
+        const triples = response.data.map((triple) => {
+          // Si l'objet est un objet imbriqué, nous allons directement conserver sa structure
+          if (typeof triple.object === 'object' && triple.object !== null) {
+            return {
+              subject: triple.subject,
+              predicate: triple.predicate,
+              object: triple.object  // Nous conservons l'objet imbriqué sans modification
+            };
+          } else {
+            return {
+              subject: triple.subject,
+              predicate: triple.predicate,
+              object: triple.object
+            };
+          }
+        });
+  
+        console.log('Triples générés après traitement:', triples);
+        setGeneratedTriples(triples);
+      } else {
+        console.error('La structure des triples est incorrecte. Réponse:', response.data);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la génération des triples', error);
+      // Gérer l'erreur si l'API échoue
+    } finally {
+      setLoading(false); // Retirer le loader
+    }
+  };
+  
+  
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -81,16 +134,45 @@ const CreatePage = () => {
                 className="w-full p-4 text-gray-700 bg-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter the text to be enriched by AI..."
                 rows="6"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
               />
             </div>
 
             {/* Submit Button */}
-            <Link to="/verificationform?source=create">
-              <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all">
-                Submit
-              </button>
-            </Link>
+            <button
+              onClick={handleGenerateTriples}
+              className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all"
+              disabled={loading}  // Désactiver le bouton pendant le chargement
+            >
+              {loading ? 'Generating...' : 'Generate Triples'}
+            </button>
+
+            {/* Display Generated Triples */}
+            {generatedTriples.length > 0 && (
+              <div className="bg-gray-300 p-6 rounded-lg mt-8">
+                <h3 className="text-xl font-semibold text-gray-700">Generated Triples:</h3>
+                <ul className="mt-4">
+                  {generatedTriples.map((triple, index) => (
+                    <li key={index} className="py-2">
+                      <strong>Subject:</strong> {triple.subject} <br />
+                      <strong>Predicate:</strong> {triple.predicate} <br />
+                      <strong>Object:</strong> {triple.object} <br />
+                      <hr />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </section>
+
+          {/* Link to verification form */}
+          <Link to="/verificationform?source=create">
+            <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all mt-6">
+              Go to Verification
+            </button>
+          </Link>
+
         </div>
       </main>
 
