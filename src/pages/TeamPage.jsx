@@ -53,7 +53,7 @@ const TeamPage = () => {
                     <FaGithub />
                   </a>
                   <a
-                    href="https://www.linkedin.com/in/sacha-godel/"
+                    href="https://www.linkedin.com/in/sacha-godel-862a2a300/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xl text-white hover:text-gray-400"
@@ -137,7 +137,7 @@ const TeamPage = () => {
                     <FaGithub />
                   </a>
                   <a
-                    href="https://www.linkedin.com/in/thomas-bobichon/"
+                    href="https://www.linkedin.com/in/thomas-bobichon-824b65300/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xl text-white hover:text-gray-400"
