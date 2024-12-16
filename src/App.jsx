@@ -18,7 +18,6 @@ function App() {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/request" element={<RequestPage />} />
         <Route path="/team" element={<TeamPage />} />
-        <Route path="/request" element={<RequestPage />} />
         <Route path="/verification" element={<VerificationForm />} />
         <Route path="/waiting" element={<WaitingPage />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />

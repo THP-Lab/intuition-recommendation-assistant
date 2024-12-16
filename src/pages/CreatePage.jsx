@@ -1,59 +1,49 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const CreatePage = () => {
   const [inputText, setInputText] = useState('');
   const [generatedTriples, setGeneratedTriples] = useState([]);
+  const [enrichedText, setEnrichedText] = useState(''); // Stockage du texte enrichi
   const [loading, setLoading] = useState(false);
 
-  // Fonction pour envoyer le texte à l'API Rails et obtenir les triples
+  const navigate = useNavigate(); // Initialize navigation function
+
+  // Function to send text to the Rails API and get triples
   const handleGenerateTriples = async () => {
     if (!inputText) return; // Ne pas envoyer si le texte est vide
   
     setLoading(true); // Afficher le loader pendant l'appel API
   
     try {
-      // Envoie du texte à l'API Rails pour générer les triples
+      // Envoi du texte à l'API Rails pour générer les triples
       const response = await axios.post('http://127.0.0.1:3042/nlp/generate', { prompt: inputText });
   
-      // Log de la réponse pour vérifier les données
       console.log('Réponse complète de l\'API:', response.data);
   
-      // Vérification de la structure de la réponse et extraction des triples
-      if (response.data && Array.isArray(response.data)) {
-        const triples = response.data.map((triple) => {
-          // Si l'objet est un objet imbriqué, nous allons directement conserver sa structure
-          if (typeof triple.object === 'object' && triple.object !== null) {
-            return {
-              subject: triple.subject,
-              predicate: triple.predicate,
-              object: triple.object  // Nous conservons l'objet imbriqué sans modification
-            };
-          } else {
-            return {
-              subject: triple.subject,
-              predicate: triple.predicate,
-              object: triple.object
-            };
-          }
-        });
+      // Vérifiez si les données sont présentes dans la réponse
+      if (response.data) {
+        // Récupérer les triples et le texte enrichi
+        const triples = response.data.triples || [];
+        const enriched = response.data.enriched_text || '';
   
-        console.log('Triples générés après traitement:', triples);
         setGeneratedTriples(triples);
+        setEnrichedText(enriched);
+  
+        // Redirection vers la page de vérification avec les triples et le texte enrichi
+        navigate('/verification?source=create', { state: { triples, enriched_text: enriched } });
       } else {
-        console.error('La structure des triples est incorrecte. Réponse:', response.data);
+        console.error('Aucune donnée trouvée dans la réponse:', response.data);
       }
     } catch (error) {
       console.error('Erreur lors de la génération des triples', error);
-      // Gérer l'erreur si l'API échoue
     } finally {
-      setLoading(false); // Retirer le loader
+      setLoading(false); // Cacher le loader
     }
   };
-  
   
 
   return (
@@ -69,7 +59,7 @@ const CreatePage = () => {
             <p className="text-lg text-center mb-6">
               Our AI assistant will help you create meaningful recommendations by enriching your input text and organizing it into Triples (Subject, Predicate, Object).
             </p>
-            
+
             {/* Diagram for Triples */}
             <div className="flex justify-center space-x-6 mb-8">
               <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
@@ -83,48 +73,6 @@ const CreatePage = () => {
               <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
                 <h3 className="text-2xl text-purple-400 font-bold">Object</h3>
                 <p className="mt-4">The target of the action (e.g., &quot;Tesla&quot;).</p>
-              </div>
-            </div>
-
-            {/* Explanation of Nested Triples */}
-            <p className="text-lg text-center mb-8">
-              In addition to using the atomic system of Triples, our AI system allows the creation of Nested Triples, enabling complex recommendations. This approach lets each part of a Triple (Subject, Predicate, Object) itself be a Triple, adding more depth and context to the recommendation.
-            </p>
-
-            {/* Nested Triple Explanation */}
-            <div className="flex justify-center space-x-6 mb-8">
-              <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
-                <h3 className="text-2xl text-blue-400 font-bold">Subject</h3>
-                <div className="mt-4 bg-[#2b2b2b] p-4 rounded-lg">
-                  <p className="text-white">
-                    <strong>Jean Dupont</strong> <br />
-                    <span className="text-blue-400">Subject</span>: A person<br />
-                    <span className="text-orange-400">Predicate</span>: Is a teacher <br />
-                    <span className="text-purple-400">Object</span>: At XYZ School.
-                  </p>
-                </div>
-              </div>
-              <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
-                <h3 className="text-2xl text-orange-400 font-bold">Predicate</h3>
-                <div className="mt-4 bg-[#2b2b2b] p-4 rounded-lg">
-                  <p className="text-white">
-                    <strong>Certifies that</strong> <br />
-                    <span className="text-blue-400">Subject</span>: Jean Dupont <br />
-                    <span className="text-orange-400">Predicate</span>: Certifies <br />
-                    <span className="text-purple-400">Object</span>: That Martin Duchemin is skilled in React.
-                  </p>
-                </div>
-              </div>
-              <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
-                <h3 className="text-2xl text-purple-400 font-bold">Object</h3>
-                <div className="mt-4 bg-[#2b2b2b] p-4 rounded-lg">
-                  <p className="text-white">
-                    <strong>Martin Duchemin</strong> <br />
-                    <span className="text-blue-400">Subject</span>: Martin Duchemin <br />
-                    <span className="text-orange-400">Predicate</span>: Has attended <br />
-                    <span className="text-purple-400">Object</span>: React workshop.
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -143,10 +91,18 @@ const CreatePage = () => {
             <button
               onClick={handleGenerateTriples}
               className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all"
-              disabled={loading}  // Désactiver le bouton pendant le chargement
+              disabled={loading} // Disable button during loading
             >
               {loading ? 'Generating...' : 'Generate Triples'}
             </button>
+
+            {/* Display Enriched Text */}
+            {enrichedText && (
+              <div className="bg-gray-300 p-6 rounded-lg mt-8">
+                <h3 className="text-xl font-semibold text-gray-700">Enriched Text:</h3>
+                <p className="mt-4 text-gray-800">{enrichedText}</p>
+              </div>
+            )}
 
             {/* Display Generated Triples */}
             {generatedTriples.length > 0 && (
@@ -157,7 +113,7 @@ const CreatePage = () => {
                     <li key={index} className="py-2">
                       <strong>Subject:</strong> {triple.subject} <br />
                       <strong>Predicate:</strong> {triple.predicate} <br />
-                      <strong>Object:</strong> {triple.object} <br />
+                      <strong>Object:</strong> {JSON.stringify(triple.object, null, 2)} <br />
                       <hr />
                     </li>
                   ))}
@@ -165,14 +121,6 @@ const CreatePage = () => {
               </div>
             )}
           </section>
-
-          {/* Link to verification form */}
-          <Link to="/verificationform?source=create">
-            <button className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all mt-6">
-              Go to Verification
-            </button>
-          </Link>
-
         </div>
       </main>
 
