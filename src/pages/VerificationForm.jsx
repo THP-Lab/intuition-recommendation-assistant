@@ -4,30 +4,34 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const VerificationForm = () => {
-  const [proposal, setProposal] = useState("Loading enriched text..."); // Texte par défaut
+  const [proposal, setProposal] = useState("Loading enriched text...");
   const [isEditable, setIsEditable] = useState(false);
   const [triples, setTriples] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Récupérer les données de location.state
   useEffect(() => {
     console.log("Location state:", location.state);
-  
+
     if (location.state?.triples) {
-      setTriples(location.state.triples);
+      const validTriples = location.state.triples.filter(
+        (t) => t.subject && t.predicate && t.object
+      );
+      setTriples(validTriples);
+    } else {
+      console.warn("No valid triples found in location.state.");
+      setTriples([]);
     }
-  
+
     if (location.state?.enriched_text) {
-      const enrichedText = location.state.enriched_text;
-      setProposal(enrichedText.trim());
+      const enrichedText = location.state.enriched_text.trim();
+      setProposal(enrichedText);
       console.log("Enriched Text:", enrichedText);
     } else {
       console.log("Enriched text is missing");
       setProposal("No enriched text found. Please verify your data.");
     }
   }, [location.state]);
-  
 
   const handleSubmit = () => {
     const source = new URLSearchParams(location.search).get("source");
@@ -43,19 +47,46 @@ const VerificationForm = () => {
     alert(`Share this URL: ${url}`);
   };
 
-  const renderTriple = (triple) => (
-    <span className="text-white mb-4 inline-block">
-      <strong className="text-blue-400">Subject:</strong> {triple.subject}{" "}
-      <strong className="text-orange-400">Predicate:</strong> {triple.predicate}{" "}
-      <strong className="text-purple-400">Object:</strong> {triple.object}
-    </span>
-  );
+  // Fonction récursive pour afficher un triple ou un sous-triple
+  const renderTriple = (triple) => {
+    const renderObject = (obj) => {
+      if (Array.isArray(obj)) {
+        // Gérer les objets sous forme de tableau
+        return (
+          <div className="ml-4 mt-2 border-l-2 border-gray-600 pl-4">
+            {obj.map((item, index) => (
+              <div key={index} className="mb-2">
+                {renderTriple(item)}
+              </div>
+            ))}
+          </div>
+        );
+      } else if (typeof obj === "object" && obj !== null) {
+        // Gérer les objets sous forme d'objet imbriqué
+        return (
+          <div className="ml-4 mt-2 border-l-2 border-gray-600 pl-4">
+            {renderTriple(obj)}
+          </div>
+        );
+      } else {
+        // Gérer les objets simples (chaînes ou nombres)
+        return <span className="text-purple-400">{String(obj)}</span>;
+      }
+    };
+
+    return (
+      <div className="text-white mb-4">
+        <span className="text-blue-400">{String(triple.subject)} </span>
+        <span className="text-orange-400">{String(triple.predicate)} </span>
+        <span className="text-purple-400">{renderObject(triple.object)}</span>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
 
-      {/* Section Header */}
       <header className="bg-[#2f2f2f] text-white py-20">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl font-extrabold mb-4">Recommendation Verification</h1>
@@ -63,33 +94,31 @@ const VerificationForm = () => {
             Voici la recommandation générée par notre assistant IA. Vous pouvez la modifier avant de la soumettre.
           </p>
 
-          {/* Affichage de la proposition */}
-<div className="bg-[#3a3a3a] p-6 rounded-lg shadow-md mt-8">
-  <h3 className="text-xl font-semibold text-white mb-4">Recommendation Proposal:</h3>
-  <div
-    className="text-white"
-    dangerouslySetInnerHTML={{ __html: proposal }} // Affichage du texte avec HTML
-  />
-</div>
+          <div className="bg-[#3a3a3a] p-6 rounded-lg shadow-md mt-8">
+            <h3 className="text-xl font-semibold text-white mb-4">Recommendation Proposal:</h3>
+            <div
+              className="text-white"
+              dangerouslySetInnerHTML={{
+                __html: typeof proposal === "string" ? proposal : "Invalid content",
+              }}
+            />
+          </div>
 
-
-          {/* Affichage des Triples */}
-          {triples.length > 0 && (
+          {triples.length > 0 ? (
             <div className="bg-[#3a3a3a] p-6 rounded-lg shadow-md mt-8">
               <h3 className="text-xl font-semibold text-white mb-4">Generated Triples:</h3>
               <div className="text-left">
                 {triples.map((triple, index) => (
-                  <div key={index} className="mb-4">
-                    {renderTriple(triple)}
-                  </div>
+                  <div key={index}>{renderTriple(triple)}</div>
                 ))}
               </div>
             </div>
+          ) : (
+            <p className="text-red-500 mt-8">No valid triples to display.</p>
           )}
         </div>
       </header>
 
-      {/* Section principale */}
       <main className="bg-[#4f4f4f] text-gray-800 py-12">
         <div className="container mx-auto px-6">
           <section className="mb-12">
@@ -105,7 +134,6 @@ const VerificationForm = () => {
             </div>
           </section>
 
-          {/* Boutons */}
           <section className="flex justify-center space-x-6 mb-12">
             <button
               onClick={handleShare}
