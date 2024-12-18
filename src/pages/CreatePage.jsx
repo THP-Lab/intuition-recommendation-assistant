@@ -1,78 +1,94 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const CreatePage = () => {
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [generatedTriples, setGeneratedTriples] = useState([]);
-  const [enrichedText, setEnrichedText] = useState(''); // Stockage du texte enrichi
+  const [enrichedText, setEnrichedText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Pour afficher l'erreur à l'utilisateur
 
-  const navigate = useNavigate(); // Initialize navigation function
+  const navigate = useNavigate();
 
-  // Function to send text to the Rails API and get triples
+  // Fonction pour envoyer le texte à l'API Rails et récupérer les triples
   const handleGenerateTriples = async () => {
     if (!inputText) return; // Ne pas envoyer si le texte est vide
-  
+
     setLoading(true); // Afficher le loader pendant l'appel API
-  
+    setErrorMessage(""); // Réinitialiser le message d'erreur
+
     try {
       // Envoi du texte à l'API Rails pour générer les triples
-      const response = await axios.post('http://127.0.0.1:3042/nlp/generate', { prompt: inputText });
-  
-      console.log('Réponse complète de l\'API:', response.data);
-  
+      const response = await axios.post("http://127.0.0.1:3042/nlp/generate", {
+        prompt: inputText,
+      });
+
+      console.log("Réponse complète de l'API:", response.data);
+
       // Vérifiez si les données sont présentes dans la réponse
       if (response.data) {
-        // Récupérer les triples et le texte enrichi
         const triples = response.data.triples || [];
-        const enriched = response.data.enriched_text || '';
-  
+        const enriched = response.data.enriched_text || "";
+
         setGeneratedTriples(triples);
         setEnrichedText(enriched);
-  
+
         // Redirection vers la page de vérification avec les triples et le texte enrichi
-        navigate('/verification?source=create', { state: { triples, enriched_text: enriched } });
+        navigate("/verification?source=create", {
+          state: { triples, enriched_text: enriched },
+        });
       } else {
-        console.error('Aucune donnée trouvée dans la réponse:', response.data);
+        console.error("Aucune donnée trouvée dans la réponse:", response.data);
+        setErrorMessage("Aucune donnée trouvée dans la réponse de l'API.");
       }
     } catch (error) {
-      console.error('Erreur lors de la génération des triples', error);
+      console.error("Erreur lors de la génération des triples:", error);
+      setErrorMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
     } finally {
       setLoading(false); // Cacher le loader
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-
-      {/* Main Content */}
       <main className="bg-[#4f4f4f] text-gray-100 pt-32">
         <div className="container mx-auto px-6 py-12">
-          {/* Create with AI Assistant Section */}
+          {/* Section Create with AI Assistant */}
           <section className="text-center mb-12">
-            <h2 className="text-4xl font-semibold text-white mb-6">Create with AI Assistant</h2>
+            <h2 className="text-4xl font-semibold text-white mb-6">
+              Create with AI Assistant
+            </h2>
             <p className="text-lg text-center mb-6">
-              Our AI assistant will help you create meaningful recommendations by enriching your input text and organizing it into Triples (Subject, Predicate, Object).
+              Our AI assistant will help you create meaningful recommendations
+              by enriching your input text and organizing it into Triples
+              (Subject, Predicate, Object).
             </p>
 
             {/* Diagram for Triples */}
             <div className="flex justify-center space-x-6 mb-8">
               <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
                 <h3 className="text-2xl text-blue-400 font-bold">Subject</h3>
-                <p className="mt-4">The entity or person (e.g., &quot;Elon Musk&quot;).</p>
+                <p className="mt-4">
+                  The entity or person (e.g., &quot;Elon Musk&quot;).
+                </p>
               </div>
               <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
-                <h3 className="text-2xl text-orange-400 font-bold">Predicate</h3>
-                <p className="mt-4">The relationship or action (e.g., &quot;is CEO of&quot;).</p>
+                <h3 className="text-2xl text-orange-400 font-bold">
+                  Predicate
+                </h3>
+                <p className="mt-4">
+                  The relationship or action (e.g., &quot;is CEO of&quot;).
+                </p>
               </div>
               <div className="bg-[#3a3a3a] p-6 rounded-lg text-center">
                 <h3 className="text-2xl text-purple-400 font-bold">Object</h3>
-                <p className="mt-4">The target of the action (e.g., &quot;Tesla&quot;).</p>
+                <p className="mt-4">
+                  The target of the action (e.g., &quot;Tesla&quot;).
+                </p>
               </div>
             </div>
 
@@ -93,13 +109,20 @@ const CreatePage = () => {
               className="bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition-all"
               disabled={loading} // Disable button during loading
             >
-              {loading ? 'Generating...' : 'Generate Triples'}
+              {loading ? "Generating..." : "Generate Triples"}
             </button>
+
+            {/* Affichage du message d'erreur */}
+            {errorMessage && (
+              <div className="mt-4 text-red-500">{errorMessage}</div>
+            )}
 
             {/* Display Enriched Text */}
             {enrichedText && (
               <div className="bg-gray-300 p-6 rounded-lg mt-8">
-                <h3 className="text-xl font-semibold text-gray-700">Enriched Text:</h3>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  Enriched Text:
+                </h3>
                 <p className="mt-4 text-gray-800">{enrichedText}</p>
               </div>
             )}
@@ -107,13 +130,20 @@ const CreatePage = () => {
             {/* Display Generated Triples */}
             {generatedTriples.length > 0 && (
               <div className="bg-gray-300 p-6 rounded-lg mt-8">
-                <h3 className="text-xl font-semibold text-gray-700">Generated Triples:</h3>
+                <h3 className="text-xl font-semibold text-gray-700">
+                  Generated Triples:
+                </h3>
                 <ul className="mt-4">
                   {generatedTriples.map((triple, index) => (
                     <li key={index} className="py-2">
                       <strong>Subject:</strong> {triple.subject} <br />
                       <strong>Predicate:</strong> {triple.predicate} <br />
-                      <strong>Object:</strong> {JSON.stringify(triple.object, null, 2)} <br />
+                      <strong>Object:</strong>{" "}
+                      {typeof triple.object === "object" &&
+                      triple.object !== null
+                        ? JSON.stringify(triple.object, null, 2)
+                        : triple.object}{" "}
+                      <br />
                       <hr />
                     </li>
                   ))}
@@ -123,7 +153,6 @@ const CreatePage = () => {
           </section>
         </div>
       </main>
-
       <Footer />
     </div>
   );
